@@ -1,10 +1,12 @@
 import path from 'path';
 import webpack from 'webpack';
 import ExtractCssChunks from 'extract-text-webpack-plugin';
+import ManifestPlugin from 'webpack-manifest-plugin';
 import commonConfig from './common.config';
+import packageObj from '../package.json';
 
 const contentPath = path.resolve(__dirname, 'dist');
-const publicPath = '/';
+const publicPath = '/'; // 可自定义
 
 const config = {
   devtool: 'source-map',
@@ -35,6 +37,13 @@ const config = {
     }),
     new ExtractCssChunks({
       filename: '[name].[hash:8].css',
+    }),
+    new ManifestPlugin({
+      fileName: 'mapping.json',
+      publicPath,
+      seed: {
+        title: packageObj.name,
+      },
     }),
     ...commonConfig.plugins,
   ],

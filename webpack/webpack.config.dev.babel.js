@@ -1,9 +1,11 @@
 import path from 'path';
 import webpack from 'webpack';
+import ManifestPlugin from 'webpack-manifest-plugin';
 import commonConfig from './common.config';
+import packageObj from '../package.json';
 
 const contentPath = path.resolve(__dirname, 'dist');
-const publicPath = '/';
+const publicPath = '/'; // 可自定义
 const entry = Object.assign({}, commonConfig.entry);
 const config = {
   devtool: 'eval-source-map',
@@ -43,6 +45,13 @@ const config = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
+    new ManifestPlugin({
+      fileName: 'mapping.json',
+      publicPath,
+      seed: {
+        title: packageObj.name,
+      },
     }),
     ...commonConfig.plugins,
   ],

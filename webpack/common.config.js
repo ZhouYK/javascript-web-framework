@@ -2,11 +2,11 @@
  * Created by ink on 2018/4/4.
  */
 import path from 'path';
-import ManifestPlugin from 'webpack-manifest-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import packageObj from '../package.json';
 // 这里可以路径前一个名称作为页面区分
 const entry = {
-  'js/index': ['babel-polyfill', './client/example/index.tsx'],
+  'js/index': ['babel-polyfill', './client/index.jsx'],
 };
 const rules = [{
   enforce: 'pre',
@@ -16,27 +16,16 @@ const rules = [{
 }, {
   enforce: 'pre',
   test: /\.js?$/,
+  exclude: /node_modules/,
   use: ['source-map-loader'],
 }, {
   test: /\.jsx?$/,
+  exclude: /node_modules/,
   use: ['babel-loader'],
-}, {
-  test: /\.tsx?$/,
-  use: [{
-    loader: 'babel-loader',
-  }, {
-    loader: 'ts-loader',
-  }],
-}, {
-  test: /\.(png|jpg|gif)$/,
-  use: ['url-loader'],
 }];
 const plugins = [
-  new ManifestPlugin({
-    fileName: 'mapping.json',
-  }),
   new HtmlWebpackPlugin({
-    title: 'My App',
+    title: packageObj.name,
     template: './html/index.html',
     filename: 'index.html',
     inject: true,

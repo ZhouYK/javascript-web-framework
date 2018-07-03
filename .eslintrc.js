@@ -15,7 +15,8 @@ module.exports = {
           ".js",
           ".jsx",
           ".ts",
-          ".tsx"
+          ".tsx",
+          ".json"
         ]
       }
     }
@@ -39,14 +40,15 @@ module.exports = {
   },
 
   "rules": {
+    "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": ["warn"],
     "react/jsx-filename-extension": ["warn", {"extensions": [".js", ".jsx", ".tsx"]}],
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["server/config/development.js"]}],
     "react/forbid-prop-types": ["error", {
       forbid: [],
       checkContextTypes: true,
       checkChildContextTypes: true,
     }],
-    "react/destructuring-assignment": "warn"
+    "react/destructuring-assignment": "warn",
   },
   "extends": "airbnb",
 }
