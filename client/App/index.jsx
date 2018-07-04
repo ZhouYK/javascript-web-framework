@@ -1,38 +1,17 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import PT from 'prop-types';
-import { actions } from '../pages/redux';
+import { Route } from 'react-router-dom';
+import load from '../tools/lazyLoad';
+import Loader from '../Components/Loader';
 
-const onClick = () => {
-  console.log(actions.demo.kity.wawo({ name: '测试' }));
-};
-const onButton = () => {
-  console.log(actions.demo.kity.heihei.say({ name: 'hello' }));
-};
-const App = props => (
+const lazyLoad = load('pages/', Loader);
+const App = () => (
   <Fragment>
-    <button type="button" onClick={onClick}>
-      点我
-    </button>
-    <button type="button" onClick={onButton}>
-      再点
-    </button>
-    <div>
-      {
-      props.demo
-    }
-    </div>
+    <Route path="/demo" component={lazyLoad('Demo')} />
   </Fragment>
 );
-App.propTypes = {
-  demo: PT.any,
-};
-App.defaultProps = {
-  demo: '',
-};
 const mapStateToProps = (state) => {
   const { demo } = state;
-  console.log('值是多少', demo, state);
   return {
     demo,
   };

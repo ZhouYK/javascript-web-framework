@@ -1,18 +1,14 @@
+// Demo模块
 const demo = {
-  addPerson: data => ({ data }),
-  hello: data => ({ data }),
-  kity: {
-    wawo: data => ({ data }),
-    heihei: {
-      say: data => ({ data }),
-    },
+  person: data => (data),
+  asyncGetPerson: data => () => {
+    console.log('此时demo的值', demo.person.toString());
+    setTimeout(() => {
+      demo.person(data);
+    }, 2000);
   },
 };
 
-const ha = {
-  may: data => ({ data }),
-};
 export default {
   demo,
-  ha,
 };
