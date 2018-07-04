@@ -17,7 +17,12 @@ export const destruct = ({ store }) => {
     kArr.shift();
     return kArr.reduceRight((pre, cur) => (state, ac) => ({ ...state, [`${cur}`]: pre(state[`${cur}`], ac) }), redu);
   };
-
+  /**
+   * 获取倒数第二层对象
+   * @param keyStr
+   * @param targetObj
+   * @returns {*}
+   */
   const setValueToObj = (keyStr, targetObj) => {
     const arr = keyStr.slice(1);
     let obj = targetObj;
@@ -71,7 +76,6 @@ export const destruct = ({ store }) => {
             if (!p) {
               // 不允许在顶层节点中使用defaultValue这个键值
               if (key === 'defaultValue') {
-                // 如果是 关键字 defaultValue，则直接赋值
                 throw new Error('不能在顶层节点的属性中，使用defaultValue键值');
               }
               p = value;

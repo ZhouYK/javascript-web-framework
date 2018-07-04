@@ -7,6 +7,6 @@ const destructor = destruct({ store });
 const { degradeActions, degradeReducers } = destructor;
 
 export const actions = degradeActions(action);
-console.log('最后的actions', actions.demo.person.toString());
+console.log('最后的actions', actions);
 export const reducers = degradeReducers(reducer);
 console.log('最后的reducer：', reducers);
