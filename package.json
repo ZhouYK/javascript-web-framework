@@ -4,19 +4,21 @@
   "scripts": {
     "watch": "webpack --env=development --config --watch ./webpack/webpack.config.babel.js",
     "start": "webpack-dev-server --config ./webpack/webpack.config.dev.babel.js",
-    "build": "webpack --env=production --config  ./webpack/webpack.config.babel.js --progress"
+    "build": "webpack --env=production --config  ./webpack/webpack.config.babel.js"
   },
   "dependencies": {
     "autoprefixer": "^8.6.4",
     "babel-cli": "^6.23.0",
     "babel-eslint": "^8.2.5",
     "babel-loader": "^7.1.4",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^17.0.0",
@@ -29,6 +31,8 @@
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-loader": "^2.1.5",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",

@@ -12,6 +12,7 @@ const Demo = lazyLoad('Demo');
 const App = () => (
   <Fragment>
     <Route path="/demo" component={Demo} />
+    <Route path="*" component={Demo} />
   </Fragment>
 );
 const mapStateToProps = (state) => {

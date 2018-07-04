@@ -6,7 +6,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import packageObj from '../package.json';
 // 这里可以路径前一个名称作为页面区分
 const entry = {
-  'js/index': ['babel-polyfill', './client/index.jsx'],
+  index: ['babel-polyfill', './client/index.jsx'],
 };
 const rules = [{
   enforce: 'pre',
@@ -35,8 +35,8 @@ const config = {
   entry,
   target: 'web',
   output: {
-    filename: '[name].[hash:8].js',
-    chunkFilename: '[name].[chunkhash:8].js',
+    filename: 'js/[name].[hash:8].js',
+    chunkFilename: 'js/[name].[chunkhash:8].js',
     libraryTarget: 'umd',
   },
   module: {

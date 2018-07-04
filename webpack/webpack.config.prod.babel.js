@@ -2,11 +2,13 @@ import path from 'path';
 import webpack from 'webpack';
 import ExtractCssChunks from 'extract-text-webpack-plugin';
 import ManifestPlugin from 'webpack-manifest-plugin';
+import OptimizeCssPlugin from 'optimize-css-assets-webpack-plugin';
+import CleanWebpackPlugin from 'clean-webpack-plugin';
 import commonConfig from './common.config';
 import packageObj from '../package.json';
 
-const contentPath = path.resolve(__dirname, 'dist');
-const publicPath = '/'; // 可自定义
+const contentPath = path.resolve(__dirname, '../dist');
+const publicPath = './'; // 可自定义
 
 const config = {
   devtool: 'source-map',
@@ -35,9 +37,25 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    new ExtractCssChunks({
-      filename: '[name].[hash:8].css',
+    new CleanWebpackPlugin(['dist'], {
+      root: path.resolve(__dirname, '../'),
+      exclude: ['shared.js'],
+      verbose: true,
+      dry: false,
     }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
+      compressor: {
+        warnings: false,
+      },
+      mangle: {
+        except: [], // 设置不混淆变量名
+      },
+    }),
+    new ExtractCssChunks({
+      filename: 'css/[name].[hash:8].css',
+    }),
+    new OptimizeCssPlugin(),
     new ManifestPlugin({
       fileName: 'mapping.json',
       publicPath,
