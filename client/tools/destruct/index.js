@@ -1,3 +1,20 @@
+/**
+ * 创建符合预期的reducer对象
+ * @param obj
+ * @returns {function(*): any}
+ */
+export const createObj = obj => defaultValue => Object.create({
+  defaultValue,
+}, Object.keys(obj).reduce((pre, cur) => {
+  /* eslint-disable no-param-reassign */
+  pre[cur] = {
+    writable: true,
+    configurable: true,
+    value: obj[cur],
+    enumerable: true,
+  };
+  return pre;
+}, {}));
 export const destruct = ({ store }) => {
   /**
    * 判断类型

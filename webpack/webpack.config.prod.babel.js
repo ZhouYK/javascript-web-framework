@@ -1,9 +1,10 @@
 import path from 'path';
 import webpack from 'webpack';
-import ExtractCssChunks from 'extract-text-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import OptimizeCssPlugin from 'optimize-css-assets-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
+import UglifyjsWebpackPlugin from 'uglifyjs-webpack-plugin';
 import commonConfig from './common.config';
 import packageObj from '../package.json';
 
@@ -11,6 +12,7 @@ const contentPath = path.resolve(__dirname, '../dist');
 const publicPath = './'; // 可自定义
 
 const config = {
+  mode: 'production',
   devtool: 'source-map',
   entry: commonConfig.entry,
   output: Object.assign({}, commonConfig.output, {
@@ -20,19 +22,69 @@ const config = {
   module: {
     rules: [{
       test: /\.less$/,
-      use: ExtractCssChunks.extract({
-        fallback: 'style-loader',
-        use: ['css-loader', 'postcss-loader', 'less-loader'],
-      }),
+      use: [{
+        loader: MiniCssExtractPlugin.loader,
+      }, {
+        loader: 'css-loader',
+      }, {
+        loader: 'postcss-loader',
+      }, {
+        loader: 'less-loader',
+      }],
     }, {
       test: /\.css$/,
-      use: ExtractCssChunks.extract({
-        fallback: 'style-loader',
-        use: ['css-loader', 'postcss-loader'],
-      }),
+      use: [{
+        loader: MiniCssExtractPlugin.loader,
+      }, {
+        loader: 'css-loader',
+      }, {
+        loader: 'postcss-loader',
+      }],
     }, ...commonConfig.module.rules],
   },
   resolve: commonConfig.resolve,
+  optimization: {
+    minimizer: [
+      new UglifyjsWebpackPlugin({
+        uglifyOptions: {
+          parse: {
+            // we want uglify-js to parse ecma 8 code. However, we don't want it
+            // to apply any minfication steps that turns valid ecma 5 code
+            // into invalid ecma 5 code. This is why the 'compress' and 'output'
+            // sections only apply transformations that are ecma 5 safe
+            // https://github.com/facebook/create-react-app/pull/4234
+            ecma: 8,
+          },
+          compress: {
+            ecma: 5,
+            warnings: false,
+            // Disabled because of an issue with Uglify breaking seemingly valid code:
+            // https://github.com/facebook/create-react-app/issues/2376
+            // Pending further investigation:
+            // https://github.com/mishoo/UglifyJS2/issues/2011
+            comparisons: false,
+          },
+          mangle: {
+            safari10: true,
+          },
+          output: {
+            ecma: 5,
+            comments: false,
+            // Turned on because emoji and regex is not minified properly using default
+            // https://github.com/facebook/create-react-app/issues/2488
+            ascii_only: true,
+          },
+        },
+        // Use multi-process parallel running to improve the build speed
+        // Default number of concurrent runs: os.cpus().length - 1
+        parallel: true,
+        // Enable file caching
+        cache: true,
+        sourceMap: false,
+      }),
+      new OptimizeCssPlugin(),
+    ]
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
@@ -43,19 +95,9 @@ const config = {
       verbose: true,
       dry: false,
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: false,
-      compressor: {
-        warnings: false,
-      },
-      mangle: {
-        except: [], // 设置不混淆变量名
-      },
-    }),
-    new ExtractCssChunks({
+    new MiniCssExtractPlugin({
       filename: 'css/[name].[hash:8].css',
     }),
-    new OptimizeCssPlugin(),
     new ManifestPlugin({
       fileName: 'mapping.json',
       publicPath,

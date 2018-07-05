@@ -5,10 +5,11 @@ import commonConfig from './common.config';
 import packageObj from '../package.json';
 
 const contentPath = path.resolve(__dirname, '../dist');
-const publicPath = './'; // 可自定义
+const publicPath = '/'; // 可自定义
 const entry = Object.assign({}, commonConfig.entry);
 const config = {
   devtool: 'eval-source-map',
+  mode: 'development',
   entry,
   target: commonConfig.target,
   output: Object.assign({}, commonConfig.output, {

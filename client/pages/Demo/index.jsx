@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PT from 'prop-types';
 import { actions } from '../redux';
+import './index.less';
 
 class Demo extends PureComponent {
   static propTypes = {
@@ -15,30 +16,34 @@ class Demo extends PureComponent {
     this.ref = React.createRef();
   }
 
-  onClick = () => {
+  onClick = async () => {
     const { demo } = actions;
     const { value } = this.ref.current;
-    demo.asyncGetPerson({
-      name: value,
+    const ac = await demo.asyncGetPerson({
+      title: value,
+    }).then((action) => {
+      console.log('返回的action：', action);
+      return action;
     });
+    console.log('awaite 后获取到的数据：', ac);
   }
 
   render() {
     const { person } = this.props;
     return (
-      <div style={{ height: '200px', margin: '20px auto' }}>
+      <div className="demo-container">
         <form action="/" method="get">
           <label htmlFor="input">
-            输入任意内容：
+              输入任意内容：
             <input ref={this.ref} type="text" id="input" />
           </label>
           <button type="button" onClick={this.onClick}>
-            提交
+              提交
           </button>
         </form>
         <p>
-          添加的人名为：
-          { person.name }
+            添加的人名为：
+          { person.title }
         </p>
       </div>
     );
