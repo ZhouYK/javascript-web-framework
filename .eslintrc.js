@@ -41,6 +41,7 @@ module.exports = {
 
   "rules": {
     "import/no-extraneous-dependencies": 0,
+    "import/no-mutable-exports": 0,
     "import/prefer-default-export": ["warn"],
     "react/jsx-filename-extension": ["warn", {"extensions": [".js", ".jsx", ".tsx"]}],
     "react/forbid-prop-types": ["error", {
