@@ -4,6 +4,7 @@
   "scripts": {
     "watch": "webpack --env=development --config --watch ./webpack/webpack.config.babel.js",
     "start": "webpack-dev-server --config ./webpack/webpack.config.dev.babel.js",
+    "dll": "webpack --config ./webpack/webpack.config.dll.babel.js",
     "build": "webpack --env=production --config  ./webpack/webpack.config.babel.js"
   },
   "dependencies": {

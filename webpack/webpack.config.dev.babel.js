@@ -1,10 +1,8 @@
-import path from 'path';
 import webpack from 'webpack';
 import ManifestPlugin from 'webpack-manifest-plugin';
-import commonConfig from './common.config';
+import commonConfig, { contentPath } from './common.config';
 import packageObj from '../package.json';
 
-const contentPath = path.resolve(__dirname, '../dist');
 const publicPath = '/'; // 可自定义
 const entry = Object.assign({}, commonConfig.entry);
 const config = {

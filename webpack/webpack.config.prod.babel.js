@@ -5,10 +5,9 @@ import ManifestPlugin from 'webpack-manifest-plugin';
 import OptimizeCssPlugin from 'optimize-css-assets-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import UglifyjsWebpackPlugin from 'uglifyjs-webpack-plugin';
-import commonConfig from './common.config';
+import commonConfig, { contentPath } from './common.config';
 import packageObj from '../package.json';
 
-const contentPath = path.resolve(__dirname, '../dist');
 const publicPath = './'; // 可自定义
 
 const config = {

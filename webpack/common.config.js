@@ -3,7 +3,11 @@
  */
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from 'webpack';
 import packageObj from '../package.json';
+import { vendorPath } from './webpack.config.dll.babel';
+
+export const contentPath = path.resolve(__dirname, '../dist');
 // 这里可以路径前一个名称作为页面区分
 const entry = {
   index: ['babel-polyfill', './client/index.jsx'],
@@ -29,6 +33,10 @@ const plugins = [
     template: './html/index.html',
     filename: 'index.html',
     inject: true,
+  }),
+  new webpack.DllReferencePlugin({
+    context: __dirname,
+    manifest: require(`${vendorPath}/vendors.manifest.json`),
   }),
 ];
 const config = {
