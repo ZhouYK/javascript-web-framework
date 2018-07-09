@@ -1,45 +1,6 @@
-import { cloneDeep } from 'lodash';
+import { getType } from './getType';
+import { uniqueTypeConnect, forPurposeKey, forPurposeValue } from './contants';
 
-const uniqueTypeConnect = '-@@thisisglue$$-';
-const forPurposeValue = 'glue';
-const forPurposeKey = 'forPurpose';
-
-export const nestGlue = glue => cloneDeep(glue);
-/**
- * 判断类型
- * @param arg
- * @returns {string}
- */
-const getType = arg => Object.prototype.toString.call(arg);
-
-/**
- * 创建符合预期的reducer对象
- * @param obj
- * @returns {function(*): any}
- */
-export const createGlue = obj => (defaultValue) => {
-  if (getType(defaultValue) !== '[object Object]') throw new Error('请传入默认值对象');
-  if (getType(obj) !== '[object Object]') throw new Error('请传入结构对象');
-  const defualtKeys = Object.keys(defaultValue);
-  return Object.create({
-    defaultValue,
-    ...obj,
-  }, Object.keys(obj).reduce((pre, cur) => {
-    /* eslint-disable no-param-reassign */
-    const value = obj[cur];
-    // 如果顶层属性类型为generator函数，则必须有默认值
-    if (defualtKeys.indexOf(cur) === -1 && value[forPurposeKey] === forPurposeValue) {
-      throw new Error(`请设置${cur} 的 默认值`);
-    }
-    pre[cur] = {
-      writable: true,
-      configurable: true,
-      value,
-      enumerable: true,
-    };
-    return pre;
-  }, {}));
-};
 /**
  * 解构glue对象，生成对应的reducer以及action的调用函数
  * @param dispatch
@@ -210,42 +171,7 @@ export const destruct = ({ dispatch }) => {
   };
   return deriveActionsAndReducers;
 };
-/**
- * 生成一对action和reducer
- * @param actionCreator
- * @param reducerFnc
- * @returns {function(): {action: *, reducer: *}}
- */
-export const gluePair = (actionCreator, reducerFnc) => {
-  const gf = function* () {
-    let errorMsg = '';
-    if (typeof actionCreator !== 'function') {
-      errorMsg = 'actionCreator必须为函数';
-    }
-    if (typeof reducerFnc !== 'function') {
-      errorMsg = `${errorMsg}，reducer必须为函数`;
-    }
-    if (errorMsg) {
-      throw new Error(errorMsg);
-    }
-    const action = yield actionCreator;
-    const reducer = yield reducerFnc;
-    return {
-      action,
-      reducer,
-    };
-  };
-  Object.defineProperty(gf, forPurposeKey, {
-    value: forPurposeValue,
-    writable: false,
-    configurable: false,
-    enumerable: false,
-  });
-  return gf;
-};
 
 export default {
   destruct,
-  gluePair,
-  nestGlue,
 };
