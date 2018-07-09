@@ -5,7 +5,7 @@ let demo;
 const personActionCreator = data => data;
 const personReducer = (state, ac) => ({ ...state, ...ac.data });
 const asyncGetPerson = info => () => axios({
-  url: '/mapping.json',
+  url: './mapping.json',
   method: 'get',
   transformRequest: [data => JSON.stringify(data)],
   transformResponse: [(data) => {
