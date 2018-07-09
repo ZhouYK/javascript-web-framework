@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PT from 'prop-types';
-import glue from '../glue/glue';
+import demoAction from './glue';
 import './index.less';
 
 class Demo extends PureComponent {
@@ -18,8 +18,7 @@ class Demo extends PureComponent {
 
   onClick = async () => {
     const { value } = this.ref.current;
-    const { demo } = glue;
-    const ac = await demo.asyncGetPerson({
+    const ac = await demoAction.asyncGetPerson({
       title: value,
     }).then((action) => {
       console.log('返回的action：', action);

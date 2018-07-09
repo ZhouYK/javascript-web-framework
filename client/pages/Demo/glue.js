@@ -21,10 +21,7 @@ const asyncGetPerson = info => () => axios({
   },
   responseType: 'json',
   timeout: 10000,
-}).then(() => {
-  console.log('传入info: ', info);
-  return demo.person(info);
-});
+}).then(() => demo.person(info));
 
 const demoStructure = {
   person: gluePair(personActionCreator, personReducer),
@@ -37,5 +34,4 @@ const demoDefaultValue = {
   },
 };
 demo = createGlue(demoStructure)(demoDefaultValue);
-
 export default demo;

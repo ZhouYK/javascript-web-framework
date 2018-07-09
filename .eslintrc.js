@@ -36,7 +36,7 @@ module.exports = {
     "navigator": false,
     "window": false,
     "Image": true,
-    "JSX": true
+    "JSX": true,
   },
 
   "rules": {
@@ -50,6 +50,7 @@ module.exports = {
       checkChildContextTypes: true,
     }],
     "react/destructuring-assignment": "warn",
+    "global-require": 0,
   },
   "extends": "airbnb",
 }

@@ -1,20 +1,45 @@
+import { cloneDeep } from 'lodash';
+
+const uniqueTypeConnect = '-@@thisisglue$$-';
+const forPurposeValue = 'glue';
+const forPurposeKey = 'forPurpose';
+
+export const nestGlue = glue => cloneDeep(glue);
+/**
+ * 判断类型
+ * @param arg
+ * @returns {string}
+ */
+const getType = arg => Object.prototype.toString.call(arg);
+
 /**
  * 创建符合预期的reducer对象
  * @param obj
  * @returns {function(*): any}
  */
-export const createGlue = obj => defaultValue => Object.create({
-  defaultValue,
-}, Object.keys(obj).reduce((pre, cur) => {
-  /* eslint-disable no-param-reassign */
-  pre[cur] = {
-    writable: true,
-    configurable: true,
-    value: obj[cur],
-    enumerable: true,
-  };
-  return pre;
-}, {}));
+export const createGlue = obj => (defaultValue) => {
+  if (getType(defaultValue) !== '[object Object]') throw new Error('请传入默认值对象');
+  if (getType(obj) !== '[object Object]') throw new Error('请传入结构对象');
+  const defualtKeys = Object.keys(defaultValue);
+  return Object.create({
+    defaultValue,
+    ...obj,
+  }, Object.keys(obj).reduce((pre, cur) => {
+    /* eslint-disable no-param-reassign */
+    const value = obj[cur];
+    // 如果顶层属性类型为generator函数，则必须有默认值
+    if (defualtKeys.indexOf(cur) === -1 && value[forPurposeKey] === forPurposeValue) {
+      throw new Error(`请设置${cur} 的 默认值`);
+    }
+    pre[cur] = {
+      writable: true,
+      configurable: true,
+      value,
+      enumerable: true,
+    };
+    return pre;
+  }, {}));
+};
 /**
  * 解构glue对象，生成对应的reducer以及action的调用函数
  * @param dispatch
@@ -22,19 +47,13 @@ export const createGlue = obj => defaultValue => Object.create({
  */
 export const destruct = ({ dispatch }) => {
   /**
-   * 判断类型
-   * @param arg
-   * @returns {string}
-   */
-  const getType = arg => Object.prototype.toString.call(arg);
-  /**
    * 生成顶层节点的reducer函数：将叶子节点的fnc进行重新包装成返回相应嵌套结构的state
    * @param k
    * @param redu
    * @returns {function(*, *=): {[p: string]: *}}
    */
   const transformReducerToNestFnc = (k, redu) => {
-    const kArr = k.split('-');
+    const kArr = k.split(uniqueTypeConnect);
     // 去除顶层节点，因为顶层节点会在 generateRealReducer进行函数包装
     kArr.shift();
     return kArr.reduceRight((pre, cur) => (state, ac) => ({ ...state, [`${cur}`]: pre(state[`${cur}`], ac) }), redu);
@@ -45,13 +64,25 @@ export const destruct = ({ dispatch }) => {
    * @param targetObj
    * @returns {*}
    */
-  const setValueToObj = (keyStr, targetObj) => {
+  const findActionParent = (keyStr, targetObj) => {
     const arr = keyStr.slice(1);
     let obj = targetObj;
-    for (let i = 0; i < arr.length - 2; i += 1) {
+    for (let i = 0; i < arr.length - 1; i += 1) {
       obj = obj[arr[i]];
     }
     return obj;
+  };
+  /**
+   * 判断是否是处于中间处理状态的glue对象
+   * @param glueKeysStr
+   * @returns {*}
+   */
+  const isMidGlue = glueKeysStr => glueKeysStr.includes(uniqueTypeConnect);
+
+  const midGlueError = (keys, p) => {
+    if (isMidGlue(keys.join('')) && !p) {
+      throw new Error('不能传递处于处理中间态的glue对象');
+    }
   };
   /**
    * 递归对象，生成标准的action以及链接reducer对象的键值与action的type
@@ -60,10 +91,10 @@ export const destruct = ({ dispatch }) => {
    * @returns {function(*=, *=, *=): {}}
    */
   const degrade = (obj, keyStr = [], parent) => {
-    let result;
     if (getType(obj) === '[object Object]') {
-      result = {};
-      Object.keys(obj).forEach((key) => {
+      const keys = Object.keys(obj);
+      midGlueError(keys, parent);
+      keys.forEach((key) => {
         const value = obj[key];
         keyStr.push(key);
         // if (getType(value) === '[object Function]') {
@@ -72,10 +103,11 @@ export const destruct = ({ dispatch }) => {
           if (!parent) {
             throw new Error(`顶层节点 ${key} 必须为对象`);
           }
-          const str = keyStr.join('-');
+          const str = keyStr.join(uniqueTypeConnect);
           let actionFn;
           let reducerFn;
-          if (getType(value) === '[object GeneratorFunction]') {
+          // generator函数是默认
+          if (value[forPurposeKey] === forPurposeValue) {
             const iterator = value();
             const stepOne = iterator.next();
             const stepTwo = iterator.next(stepOne.value);
@@ -88,15 +120,17 @@ export const destruct = ({ dispatch }) => {
             actionFn = value;
           }
           // 找到原始actions对象中，当前key值所在的对象
-          const smallParentObj = setValueToObj(keyStr, parent);
+          const smallParentObj = findActionParent(keyStr, parent);
           // 如果为action，则进行类似bindActionCreators的动作
-          smallParentObj[key] = (...args) => {
+          const action = (...args) => {
             const actionEntity = actionFn(...args);
             if (getType(actionEntity) === '[object Function]') {
               return dispatch(actionEntity);
             }
+            // 组装action实体，触发action
             return dispatch({ type: str, data: actionEntity });
           };
+          smallParentObj[key] = action;
           if (reducerFn) {
             // 如果为reducer，则直接用属性联结行程的字符串作为对象键值赋值
             // parent为顶层对象引用
@@ -116,17 +150,16 @@ export const destruct = ({ dispatch }) => {
             p = value;
           }
           degrade(value, [...keyStr], p);
-          result[key] = p;
           // 返回到顶层节点后，推出节点重新检索兄弟顶层节点
           keyStr.shift();
         } else {
-          throw new Error(`传入的 ${keyStr.join('.')}的值非法，应为对象或者函数`);
+          throw new Error(`传入的 ${keyStr.join('.')}的值非法，应为对象或者函数；如需设置字面量，请在默认值中设置`);
         }
       });
     } else {
       throw new Error('传入的待处理数据必须是对象!');
     }
-    return result;
+    return obj;
   };
   /**
    * 复制并删除原始对象中的衍生属性，保留原生属性
@@ -136,11 +169,10 @@ export const destruct = ({ dispatch }) => {
    */
   const deleteDerivedProps = (obj, tk) => {
     Object.keys(obj).forEach((key) => {
-      if (key.startsWith(`${tk}-`)) {
+      if (key.startsWith(`${tk}${uniqueTypeConnect}`)) {
         delete obj[key];
       }
     });
-    console.log('删除后的对象', obj);
   };
   /**
    * 根据原始的reducer对象去生成函数reducer
@@ -148,9 +180,10 @@ export const destruct = ({ dispatch }) => {
    * @returns {{[p: string]: *}}
    */
   const generateRealReducer = originReducer => Object.keys(originReducer).reduce((pre, key) => {
-    const value = { ...originReducer[key] };
-    console.log('defaultValue', originReducer[key].defaultValue);
-    const { defaultValue } = originReducer[key];
+    // 原型上的属性无法扩展复制
+    const targetGlue = originReducer[key];
+    const value = { ...targetGlue };
+    const { defaultValue } = targetGlue;
     // 定义顶层reducer，根据action type调用对应的子reducer
     const fnc = (state = defaultValue, ac) => {
       const { type } = ac;
@@ -162,18 +195,14 @@ export const destruct = ({ dispatch }) => {
       // 没有对应的reducer，直接返回原值
       return state;
     };
-    deleteDerivedProps(originReducer[key], key);
+    deleteDerivedProps(targetGlue, key);
     return { ...pre, [`${key}`]: fnc };
   }, {});
   const deriveActionsAndReducers = (structure) => {
-    console.log('传入的结构', structure);
     const stagedStructure = degrade(structure);
     // reducer组成的对象，将来传给combinereducers
     const reducers = generateRealReducer(stagedStructure);
-    console.log('获得的reducers，', reducers);
     const actions = stagedStructure;
-    console.log('获得的actions，', actions.demo.person.toString());
-    console.log('原始的actions，', structure.demo.person.toString());
     return {
       reducers,
       actions,
@@ -187,33 +216,36 @@ export const destruct = ({ dispatch }) => {
  * @param reducerFnc
  * @returns {function(): {action: *, reducer: *}}
  */
-export const gluePair = (actionCreator, reducerFnc) => function* () {
-  let errorMsg = '';
-  if (typeof actionCreator !== 'function') {
-    errorMsg = 'actionCreator必须为函数';
-  }
-  if (typeof reducerFnc !== 'function') {
-    errorMsg = `${errorMsg}，reducer必须为函数`;
-  }
-  if (errorMsg) {
-    throw new Error(errorMsg);
-  }
-  const action = yield actionCreator;
-  const reducer = yield reducerFnc;
-  return {
-    action,
-    reducer,
+export const gluePair = (actionCreator, reducerFnc) => {
+  const gf = function* () {
+    let errorMsg = '';
+    if (typeof actionCreator !== 'function') {
+      errorMsg = 'actionCreator必须为函数';
+    }
+    if (typeof reducerFnc !== 'function') {
+      errorMsg = `${errorMsg}，reducer必须为函数`;
+    }
+    if (errorMsg) {
+      throw new Error(errorMsg);
+    }
+    const action = yield actionCreator;
+    const reducer = yield reducerFnc;
+    return {
+      action,
+      reducer,
+    };
   };
+  Object.defineProperty(gf, forPurposeKey, {
+    value: forPurposeValue,
+    writable: false,
+    configurable: false,
+    enumerable: false,
+  });
+  return gf;
 };
 
 export default {
   destruct,
   gluePair,
+  nestGlue,
 };
-
-// export const glue = degradeActions(action);
-// console.log('最后的actions', glue.demo.person.toString());
-// const originReducer = degradeReducers(reducer);
-// console.log('原始reducer对象：', originReducer);
-// export const reducers = generateRealReducer(originReducer);
-// console.log('最后的reducer：', reducers);

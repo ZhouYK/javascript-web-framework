@@ -2,14 +2,12 @@ import { ConnectedRouter } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Local from './Local';
-import Prod from './Prod';
 
 let RealContent;
 if (process.env.NODE_ENV === 'development') {
-  RealContent = Local;
+  RealContent = require('./Local').default;
 } else {
-  RealContent = Prod;
+  RealContent = require('./Prod').default;
 }
 class ErrorCatch extends React.Component {
   componentDidCatch(err, msg) {
