@@ -2,8 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-export const vendorPath = path.resolve(__dirname, '../public');
-console.log('vendorPath，', vendorPath);
+export const vendorPath = path.resolve(__dirname, '../dist/dll');
 const library = '[name]_lib';
 
 export default {

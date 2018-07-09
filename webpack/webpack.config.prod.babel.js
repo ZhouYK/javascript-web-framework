@@ -90,7 +90,7 @@ const config = {
     }),
     new CleanWebpackPlugin(['dist'], {
       root: path.resolve(__dirname, '../'),
-      exclude: ['shared.js'],
+      exclude: ['dll'],
       verbose: true,
       dry: false,
     }),

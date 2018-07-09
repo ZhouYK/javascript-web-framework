@@ -2,5 +2,9 @@
 .DS_Store/
 .git/
 node_modules/
-dist/
+dist/js
+dist/css
+dist/image
+dist/*.html
+dist/*.json
 package-lock.json
