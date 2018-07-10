@@ -4,7 +4,7 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import DevTools from '../../tools/DevTools/index';
+import DevTools from '../../tools/devTools/index';
 
 const Content = (props) => {
   const { component: CustomerContent } = props;

@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { combineReducers } from 'redux';
 import Root from './topContainer/Root/index';
-import App from './App';
+import App from './app';
 import reducers from './reducers';
 import store, { history } from './store';
 

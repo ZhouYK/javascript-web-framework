@@ -2,7 +2,7 @@
  * Created by ink on 2018/4/9.
  */
 import { createStore, compose } from 'redux';
-import DevTools from '../DevTools/index';
+import DevTools from '../devTools/index';
 
 export default function configureStore(reducers, initialState = {}, enhancer) {
   const innerEnhancer = compose(

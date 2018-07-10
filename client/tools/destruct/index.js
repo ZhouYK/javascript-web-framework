@@ -6,7 +6,7 @@ import { uniqueTypeConnect, forPurposeKey, forPurposeValue } from './contants';
  * @param dispatch
  * @returns {function(*=): {reducers: *, actions: (function(*=, *=, *=): {})}}
  */
-export const destruct = ({ dispatch }) => {
+const destruct = ({ dispatch }) => {
   /**
    * 生成顶层节点的reducer函数：将叶子节点的fnc进行重新包装成返回相应嵌套结构的state
    * @param k
@@ -172,6 +172,9 @@ export const destruct = ({ dispatch }) => {
   return deriveActionsAndReducers;
 };
 
+export { destruct };
+export { createGlue } from './createGlue';
+export { gluePair } from './gluePair';
 export default {
   destruct,
 };

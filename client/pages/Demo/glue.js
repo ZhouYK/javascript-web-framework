@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { createGlue } from '../../tools/destruct/createGlue';
-import { gluePair } from '../../tools/destruct/gluePair';
+import { createGlue, gluePair } from '../../tools/destruct';
 
 let demo;
 const personActionCreator = data => data;
@@ -35,4 +34,6 @@ const demoDefaultValue = {
   },
 };
 demo = createGlue(demoStructure)(demoDefaultValue);
+// 如果该glue被嵌套复用了，则应该返回一个gule creator
+// demo = () => createGlue(demoStructure)(demoDefaultValue);
 export default demo;

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import load from '../tools/lazyLoad';
-import Loader from '../Components/Loader';
+import Loader from '../components/Loader';
 import 'normalize.css';
 
 const lazyLoad = load('', Loader);
