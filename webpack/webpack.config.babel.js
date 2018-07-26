@@ -5,7 +5,7 @@ const publicPaths = {
   test: '测试环境域名地址',
   stage: '预发环境域名地址',
   prod: '生产环境域名地址',
-  local: './',
+  local: '/',
 };
 
 export default (env = 'prod') => getConfig(publicPaths[env]);
