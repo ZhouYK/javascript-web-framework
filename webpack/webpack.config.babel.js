@@ -1,9 +1,11 @@
-import devConfig from './webpack.config.dev.babel';
-import prodConfig from './webpack.config.prod.babel';
+import getConfig from './webpack.config.prod.babel';
 
-const config = {
-  development: devConfig,
-  production: prodConfig,
+const publicPaths = {
+  dev: '开发环境域名地址',
+  test: '测试环境域名地址',
+  stage: '预发环境域名地址',
+  prod: '生产环境域名地址',
+  local: './',
 };
 
-export default (env = 'production') => config[env];
+export default (env = 'prod') => getConfig(publicPaths[env]);

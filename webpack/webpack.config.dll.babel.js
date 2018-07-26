@@ -16,7 +16,19 @@ export default {
       'redux',
     ],
   },
-
+  module: {
+    rules: [{
+      test: /\.jsx?$/,
+      use: ['babel-loader'],
+    }],
+  },
+  resolve: {
+    mainFiles: ['index.web', 'index'],
+    modules: [
+      'node_modules',
+    ],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+  },
   output: {
     filename: '[name].dll.js',
     path: vendorPath,

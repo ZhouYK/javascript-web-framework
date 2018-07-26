@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import ManifestPlugin from 'webpack-manifest-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import commonConfig, { contentPath } from './common.config';
 import packageObj from '../package.json';
 
@@ -15,13 +16,27 @@ const config = {
     publicPath,
   }),
   module: {
-    rules: [{
-      test: /\.less$/,
-      use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader'],
-    }, {
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader', 'postcss-loader'],
-    }, ...commonConfig.module.rules],
+    rules: [
+      {
+        test: /\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          {
+            loader: 'less-loader',
+            options: {
+              javascriptEnabled: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      },
+      ...commonConfig.module.rules,
+    ],
   },
   resolve: commonConfig.resolve,
   watchOptions: {
@@ -51,6 +66,15 @@ const config = {
       seed: {
         title: packageObj.name,
       },
+    }),
+    new HtmlWebpackPlugin({
+      template: './html/index.html',
+      filename: 'index.html',
+      templateParameters: {
+        vendor: `${publicPath}dll/vendors.dll.js`,
+        title: packageObj.name,
+      },
+      inject: true,
     }),
     ...commonConfig.plugins,
   ],

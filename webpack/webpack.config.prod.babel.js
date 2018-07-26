@@ -5,12 +5,11 @@ import ManifestPlugin from 'webpack-manifest-plugin';
 import OptimizeCssPlugin from 'optimize-css-assets-webpack-plugin';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import UglifyjsWebpackPlugin from 'uglifyjs-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import commonConfig, { contentPath } from './common.config';
 import packageObj from '../package.json';
 
-const publicPath = './'; // 可自定义
-
-const config = {
+const getConfig = publicPath => ({
   mode: 'production',
   devtool: 'source-map',
   entry: commonConfig.entry,
@@ -29,6 +28,9 @@ const config = {
         loader: 'postcss-loader',
       }, {
         loader: 'less-loader',
+        options: {
+          javascriptEnabled: true,
+        },
       }],
     }, {
       test: /\.css$/,
@@ -41,7 +43,6 @@ const config = {
       }],
     }, ...commonConfig.module.rules],
   },
-  resolve: commonConfig.resolve,
   optimization: {
     minimizer: [
       new UglifyjsWebpackPlugin({
@@ -79,11 +80,14 @@ const config = {
         parallel: true,
         // Enable file caching
         cache: true,
-        sourceMap: false,
+        sourceMap: true,
       }),
       new OptimizeCssPlugin(),
-    ]
+    ],
+    namedModules: true,
+    occurrenceOrder: false,
   },
+  resolve: commonConfig.resolve,
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
@@ -104,7 +108,16 @@ const config = {
         title: packageObj.name,
       },
     }),
+    new HtmlWebpackPlugin({
+      template: './html/index.html',
+      filename: 'index.html',
+      templateParameters: {
+        vendor: `${publicPath}dll/vendors.dll.js`,
+        title: packageObj.name,
+      },
+      inject: true,
+    }),
     ...commonConfig.plugins,
   ],
-};
-export default config;
+});
+export default getConfig;
