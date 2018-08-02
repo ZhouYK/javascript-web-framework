@@ -1,5 +1,5 @@
 {
-  "name": "merchantTobAdmin",
+  "name": "javascript web framework",
   "version": "0.0.1",
   "scripts": {
     "watch": "webpack --env=development --config --watch ./webpack/webpack.config.babel.js",
