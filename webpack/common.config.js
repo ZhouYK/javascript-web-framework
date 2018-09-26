@@ -13,12 +13,12 @@ const entry = {
 };
 const rules = [{
   enforce: 'pre',
-  test: /\.(jsx?)|(tsx?)$/,
+  test: /\.jsx?$/,
   exclude: /node_modules/,
   use: ['eslint-loader'],
 }, {
   enforce: 'pre',
-  test: /\.js?$/,
+  test: /\.js$/,
   exclude: /node_modules/,
   use: ['source-map-loader'],
 }, {

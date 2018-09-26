@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
-import load from '../tools/lazyLoad';
-import Loader from '../components/Loader';
-import 'normalize.css';
+import load from '../../tools/lazyLoad/index';
+import Loader from '../../components/Loader/index';
+import '../../../node_modules/normalize.css/normalize.css';
 
-const lazyLoad = load('', Loader);
+const lazyLoad = load(Loader);
 
 const Demo = lazyLoad('Demo');
 

@@ -1,7 +1,10 @@
+import React from 'react';
 import Loadable from 'react-loadable';
 
-export default (prefix, Loading) => path => Loadable({
+const loadingComponent = Loading => props => <Loading {...props} />;
+
+export default (Loading, prefix = '') => path => Loadable({
   loader: () => import(`../../pages/${prefix}${path}`),
-  loading: Loading,
+  loading: loadingComponent(Loading),
   timeout: 10000,
 });

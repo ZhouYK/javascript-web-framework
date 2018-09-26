@@ -5,7 +5,8 @@ export const history = historyConf({
 });
 
 const defaultReducers = {
-  router: () => ({}),
+  // 无用，只是为了初始化store
+  defaultFnc: () => ({}),
 };
 const store = storeFactory(defaultReducers, history);
 

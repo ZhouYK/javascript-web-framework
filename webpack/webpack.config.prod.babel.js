@@ -11,7 +11,7 @@ import packageObj from '../package.json';
 
 const getConfig = publicPath => ({
   mode: 'production',
-  devtool: 'source-map',
+  // devtool: 'source-map',
   entry: commonConfig.entry,
   output: Object.assign({}, commonConfig.output, {
     path: contentPath,
