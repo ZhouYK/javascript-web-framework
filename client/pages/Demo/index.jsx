@@ -10,6 +10,7 @@ class Demo extends PureComponent {
       name: PT.string,
     }).isRequired,
   }
+
   constructor(options) {
     super(options);
     this.ref = React.createRef();

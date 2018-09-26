@@ -1,6 +1,7 @@
 {
   "name": "javascript-web-framework",
   "version": "0.0.1",
+  "description": "前端web脚手架",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
