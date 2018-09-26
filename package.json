@@ -10,8 +10,8 @@
     "client/**/*.{js,jsx}": [
       "eslint --fix"
     ],
-    "pages/**/*.less": [
-      "stylelint --syntax less"
+    "client/**/*.less": [
+      "stylelint --fix --syntax less"
     ]
   },
   "scripts": {
