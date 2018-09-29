@@ -36,7 +36,9 @@ export default {
   },
 
   plugins: [
-    new CleanWebpackPlugin([vendorPath]),
+    new CleanWebpackPlugin(['dist/dll'], {
+      root: path.resolve(__dirname, '../'),
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),

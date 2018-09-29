@@ -28,7 +28,7 @@ const rules = [{
 }];
 const plugins = [
   new webpack.DllReferencePlugin({
-    context: __dirname,
+    context: path.join(__dirname, '..'),
     manifest: require(`${vendorPath}/vendors.manifest.json`),
   }),
 ];
