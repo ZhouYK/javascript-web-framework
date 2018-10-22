@@ -2,11 +2,11 @@ const webpack = require('webpack');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-export const vendorPath = path.resolve(__dirname, '../dist/dll');
+const vendorPath = path.resolve(__dirname, `../dist/dll/${process.env.NODE_ENV}`);
 const library = '[name]_lib';
 
 export default {
-  mode: 'production',
+  mode: process.env.NODE_ENV,
   entry: {
     vendors: [
       'axios',
@@ -14,13 +14,8 @@ export default {
       'react-dom',
       'react-router-dom',
       'redux',
+      'moment',
     ],
-  },
-  module: {
-    rules: [{
-      test: /\.jsx?$/,
-      use: ['babel-loader'],
-    }],
   },
   resolve: {
     mainFiles: ['index.web', 'index'],
@@ -36,15 +31,15 @@ export default {
   },
 
   plugins: [
-    new CleanWebpackPlugin(['dist/dll'], {
+    new CleanWebpackPlugin([`dist/dll/${process.env.NODE_ENV}`], {
       root: path.resolve(__dirname, '../'),
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new webpack.DllPlugin({
       path: path.join(vendorPath, '[name].manifest.json'),
       name: library,
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
 };

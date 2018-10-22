@@ -1,9 +1,11 @@
 import webpack from 'webpack';
+import path from 'path';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import commonConfig, { contentPath } from './common.config';
 import packageObj from '../package.json';
 
+const nodeEnv = 'development';
 const publicPath = '/'; // 可自定义
 const entry = Object.assign({}, commonConfig.entry);
 const config = {
@@ -17,6 +19,25 @@ const config = {
   }),
   module: {
     rules: [
+      {
+        enforce: 'pre',
+        test: /\.(jsx?)|(tsx?)$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'eslint-loader',
+          options: {
+            cache: true,
+            quiet: true,
+            failOnError: true,
+          },
+        }],
+      },
+      {
+        enforce: 'pre',
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: ['source-map-loader'],
+      },
       {
         test: /\.less$/,
         use: [
@@ -58,7 +79,12 @@ const config = {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify(nodeEnv),
+      'process.env.JENKINS_ENV': JSON.stringify('test'),
+    }),
+    new webpack.DllReferencePlugin({
+      context: path.join(__dirname, '..'),
+      manifest: require(path.join(__dirname, `../dist/dll/${nodeEnv}/vendors.manifest.json`)),
     }),
     new ManifestPlugin({
       fileName: 'mapping.json',
@@ -71,7 +97,7 @@ const config = {
       template: './html/index.html',
       filename: 'index.html',
       templateParameters: {
-        vendor: `${publicPath}dll/vendors.dll.js`,
+        vendor: `${publicPath}dll/${nodeEnv}/vendors.dll.js`,
         title: packageObj.name,
       },
       inject: true,
