@@ -9,13 +9,51 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   RealContent = require('./Prod').default;
 }
+const Error = p => (
+  <section
+    style={{
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      width: 400,
+      height: 200,
+      marginTop: 200,
+      borderRadius: 10,
+      textAlign: 'center',
+      backgroundColor: '#fff1f0',
+      fontSize: 18,
+      overflow: 'scroll',
+      paddingTop: 50,
+    }}
+  >
+    /(ㄒoㄒ)/~~页面发生了异常
+    <p
+      style={{ fontSize: 14, color: 'red', marginTop: 15 }}
+    >
+      {p.children}
+    </p>
+  </section>
+);
 class ErrorCatch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+    };
+  }
+
   componentDidCatch(err, msg) {
-    console.log(err, msg);
+    console.error(err, msg);
+    this.setState({
+      error: err,
+    });
   }
 
   render() {
-    return this.props.children;
+    return this.state.error ? (
+      <Error>
+        {this.state.error.message}
+      </Error>
+    ) : this.props.children;
   }
 }
 ErrorCatch.propTypes = {
