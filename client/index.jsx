@@ -8,8 +8,10 @@ import store, { history } from './store';
 
 if (window.Promise && !window.Promise.prototype.finally) {
   window.Promise = null;
-  require('es6-promise').polyfill();
 }
+
+require('es6-promise').polyfill();
+
 store.replaceReducer(combineReducers(reducers));
 render(
   <Root store={store} history={history} component={App} />,
