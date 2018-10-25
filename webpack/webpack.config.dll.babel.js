@@ -9,7 +9,6 @@ export default {
   mode: process.env.NODE_ENV,
   entry: {
     vendors: [
-      'axios',
       'react',
       'react-dom',
       'react-router-dom',

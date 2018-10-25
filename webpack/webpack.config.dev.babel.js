@@ -33,12 +33,6 @@ const config = {
         }],
       },
       {
-        enforce: 'pre',
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: ['source-map-loader'],
-      },
-      {
         test: /\.less$/,
         use: [
           'style-loader',
