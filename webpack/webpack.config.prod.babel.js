@@ -80,7 +80,13 @@ const getConfig = (publicPath, env) => (smp.wrap({
         cache: true,
         sourceMap: false,
       }),
-      new OptimizeCssPlugin(),
+      new OptimizeCssPlugin({
+        cssProcessorOptions: {
+          discardComments: { removeAll: true },
+          // 避免 cssnano 重新计算 z-index
+          safe: true,
+        },
+      }),
     ],
     namedModules: true,
     occurrenceOrder: false,
