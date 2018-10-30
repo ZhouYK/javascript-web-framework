@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import PT from 'prop-types';
-import demoService from '../service/demo';
+import { connect } from '../../store';
+import demoModel from '../models/demo';
+import demoService from '../services/demo';
 import './index.less';
 
 class Demo extends PureComponent {
@@ -33,7 +34,7 @@ class Demo extends PureComponent {
       <div className="demo-container">
         <form action="/" method="get">
           <label htmlFor="input">
-              输入任意内容：
+              输入任意名称：
             <input ref={this.ref} type="text" id="input" />
           </label>
           <button type="button" onClick={this.onClick}>
@@ -41,7 +42,7 @@ class Demo extends PureComponent {
           </button>
         </form>
         <p>
-            添加的人名为：
+            添加名称为：
           { person.title }
         </p>
       </div>
@@ -49,11 +50,4 @@ class Demo extends PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
-  const { demo } = state;
-  const { person } = demo;
-  return {
-    person,
-  };
-};
-export default connect(mapStateToProps)(Demo);
+export default connect(demoModel)(Demo);

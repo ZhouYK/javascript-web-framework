@@ -1,5 +1,5 @@
 import fetch from '../../utils/request';
-import demo from '../model/demo';
+import demo from '../models/demo';
 
 const asyncGetPerson = info => fetch({
   url: './mapping.json',

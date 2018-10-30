@@ -1,14 +1,8 @@
 import { routerReducer } from 'react-router-redux';
-import { destruct } from 'glue-redux';
-import * as models from '../pages/model';
-import store from '../store/index';
-
-const { dispatch } = store;
-const destructor = destruct({ dispatch })(models);
-const { reducers } = destructor;
+import models from '../pages/models';
 
 const reducer = {
   router: routerReducer,
-  ...reducers,
+  ...models,
 };
 export default reducer;

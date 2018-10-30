@@ -5,13 +5,15 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import DevTools from '../../tools/devTools/index';
+import store from '../../store';
 
+const DT = DevTools();
 const Content = (props) => {
   const { component: CustomerContent } = props;
   return (
     <Fragment>
       <CustomerContent />
-      <DevTools />
+      <DT store={store} />
     </Fragment>
   );
 };
