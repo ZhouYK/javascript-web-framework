@@ -128,7 +128,7 @@ const getConfig = (publicPath, env) => (smp.wrap({
       fileName: 'mapping.json',
       publicPath,
       seed: {
-        title: '月付后台管理系统',
+        title: '后台管理系统',
       },
     }),
     new HtmlWebpackPlugin({
@@ -136,7 +136,7 @@ const getConfig = (publicPath, env) => (smp.wrap({
       filename: 'index.html',
       templateParameters: {
         vendor: `${publicPath}dll/${nodeEnv}/vendors.dll.js`,
-        title: '月付中后台管理系统',
+        title: '中后台管理系统',
       },
       inject: true,
       favicon: 'html/favicon.ico',
