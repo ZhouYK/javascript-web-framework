@@ -8,4 +8,4 @@ const publicPaths = {
   local: '/',
 };
 
-export default (env = 'prod') => getConfig(publicPaths[env]);
+export default (env = 'prod') => getConfig(publicPaths[env], env);

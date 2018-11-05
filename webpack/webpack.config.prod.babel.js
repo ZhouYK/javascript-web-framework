@@ -25,13 +25,11 @@ const getConfig = (publicPath, env) => (smp.wrap({
   module: {
     rules: [{
       test: /\.less$/,
-      sideEffects: true,
       use: [{
         loader: MiniCssExtractPlugin.loader,
       }, 'happypack/loader?id=styles'],
     }, {
       test: /\.css$/,
-      sideEffects: true,
       use: [{
         loader: MiniCssExtractPlugin.loader,
       }, {

@@ -17,10 +17,8 @@ const rules = [{
       cacheDirectory: true,
     },
   }],
-  sideEffects: false,
 }, {
   test: /\.(png|gif|jpe?g)$/,
-  sideEffects: true,
   use: [{
     loader: 'url-loader',
     options: {
