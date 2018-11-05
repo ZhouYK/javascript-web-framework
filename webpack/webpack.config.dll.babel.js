@@ -13,7 +13,6 @@ export default {
       'react-dom',
       'react-router-dom',
       'redux',
-      'moment',
     ],
   },
   resolve: {
