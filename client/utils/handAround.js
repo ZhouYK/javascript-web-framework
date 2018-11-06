@@ -20,8 +20,8 @@ function queryStringToObj(str) {
     if ( temp.length === 1 ) {
       temp.push('');
     }
-    obj[temp[0]] = temp[1];
-    return obj;
+    pre[temp[0]] = temp[1];
+    return pre;
   }, obj);
   return obj;
 }

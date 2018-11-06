@@ -5,12 +5,12 @@ import { routerMiddleware } from 'react-router-redux';
 import { applyMiddleware, combineReducers } from 'redux';
 import { createBrowserHistory } from 'history';
 import { middleware } from './common';
-import configureStore from '../configure/store';
+import genStore from '../storeGen/store';
 
 
 const store = (reducers, history) => {
-  const middlewares = middleware.concat(routerMiddleware(history));
-  return configureStore(
+  const middlewares = [...middleware, routerMiddleware(history)];
+  return genStore(
     combineReducers(reducers),
     {},
     applyMiddleware(...middlewares),

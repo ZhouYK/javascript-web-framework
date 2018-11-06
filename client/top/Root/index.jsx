@@ -1,7 +1,7 @@
 import { ConnectedRouter } from 'react-router-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
-import store from '../../store';
+import store, { history } from '../../store';
 
 let RealContent;
 if (process.env.NODE_ENV === 'development') {
@@ -60,7 +60,7 @@ ErrorCatch.propTypes = {
   children: PropTypes.node.isRequired,
 };
 const Root = (props) => {
-  const { history, component } = props;
+  const { component } = props;
   return (
     <ErrorCatch>
       <ConnectedRouter store={store} history={history}>
@@ -71,7 +71,6 @@ const Root = (props) => {
 };
 
 Root.propTypes = {
-  history: PropTypes.object.isRequired,
   component: PropTypes.func.isRequired,
 };
 

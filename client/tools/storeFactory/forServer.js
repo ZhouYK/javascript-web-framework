@@ -3,7 +3,7 @@
  */
 import { applyMiddleware, combineReducers } from 'redux';
 import { middleware } from './common';
-import configureStore from '../configure/store';
+import configureStore from '../storeGen/store';
 
 const store = reducers => configureStore(
   combineReducers(reducers),

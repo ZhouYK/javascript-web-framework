@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { destruct } from 'react-glux';
-import storeFactory, { historyConf } from '../tools/storeConf/forBrowser';
+import storeFactory, { historyConf } from '../tools/storeFactory/forBrowser';
 import models from '../reducers';
 
 export const history = historyConf({
