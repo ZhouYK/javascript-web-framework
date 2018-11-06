@@ -3,7 +3,7 @@ import { destruct } from 'react-glux';
 import storeFactory, { historyConf } from '../tools/storeFactory/forBrowser';
 import models from '../reducers';
 
-export const history = historyConf({
+const history = historyConf({
   basename: '', // 根据需要添加，默认为空串
 });
 
@@ -16,6 +16,7 @@ const { reducers, connect } = destruct(store)(models);
 store.replaceReducer(combineReducers(reducers));
 
 export {
+  history,
   connect,
 };
 
