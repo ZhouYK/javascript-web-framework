@@ -4,21 +4,18 @@
 
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import DevTools from '../../tools/devTools/index';
+import DevTools from '../../tools/devTools';
 import store from '../../store';
 
 const DT = DevTools();
-const Content = (props) => {
-  const { component: CustomerContent } = props;
-  return (
-    <Fragment>
-      <CustomerContent />
-      <DT store={store} />
-    </Fragment>
-  );
-};
+const Content = props => (
+  <Fragment>
+    { props.children }
+    <DT store={store} />
+  </Fragment>
+);
 Content.displayName = 'LocalRoot';
 Content.propTypes = {
-  component: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 export default Content;

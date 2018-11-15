@@ -1,13 +1,13 @@
-import { ConnectedRouter } from 'react-router-redux';
 import PropTypes from 'prop-types';
+import { Router } from 'react-router-dom';
 import React from 'react';
-import store, { history } from '../../store';
+import history from '../../history';
 
-let RealContent;
+let RootComponent;
 if (process.env.NODE_ENV === 'development') {
-  RealContent = require('./Local').default;
+  RootComponent = require('./Local').default;
 } else {
-  RealContent = require('./Prod').default;
+  RootComponent = require('./Prod').default;
 }
 const Error = p => (
   <section
@@ -41,11 +41,14 @@ class ErrorCatch extends React.Component {
     };
   }
 
+  static getDerivedStateFromError(error) {
+    return {
+      error,
+    };
+  }
+
   componentDidCatch(err, msg) {
     console.error(err, msg);
-    this.setState({
-      error: err,
-    });
   }
 
   render() {
@@ -59,19 +62,18 @@ class ErrorCatch extends React.Component {
 ErrorCatch.propTypes = {
   children: PropTypes.node.isRequired,
 };
-const Root = (props) => {
-  const { component } = props;
-  return (
-    <ErrorCatch>
-      <ConnectedRouter store={store} history={history}>
-        <RealContent component={component} />
-      </ConnectedRouter>
-    </ErrorCatch>
-  );
-};
+const Root = props => (
+  <ErrorCatch>
+    <Router history={history}>
+      <RootComponent>
+        { props.children }
+      </RootComponent>
+    </Router>
+  </ErrorCatch>
+);
 
 Root.propTypes = {
-  component: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Root;
