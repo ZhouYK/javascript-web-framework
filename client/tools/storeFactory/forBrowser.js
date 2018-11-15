@@ -5,11 +5,12 @@ import { applyMiddleware } from 'redux';
 import { middleware } from './common';
 import genStore from '../storeGen/store';
 
+const defaultReducer = () => ({});
 
-const store = () => {
+const store = (reducers = defaultReducer) => {
   const middlewares = [...middleware];
   return genStore(
-    () => ({}),
+    reducers,
     {},
     applyMiddleware(...middlewares),
   );
