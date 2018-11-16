@@ -16,7 +16,7 @@ const smp = new SpeedMeasurePlugin();
 const nodeEnv = 'production';
 const getConfig = (publicPath, env) => (smp.wrap({
   mode: nodeEnv,
-  devtool: 'false',
+  devtool: 'source-map',
   entry: commonConfig.entry,
   output: Object.assign({}, commonConfig.output, {
     path: contentPath,
@@ -76,7 +76,7 @@ const getConfig = (publicPath, env) => (smp.wrap({
         parallel: true,
         // Enable file caching
         cache: true,
-        sourceMap: false,
+        sourceMap: true,
       }),
       new OptimizeCssPlugin({
         cssProcessorOptions: {
