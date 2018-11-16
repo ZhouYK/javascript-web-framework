@@ -28,7 +28,8 @@ module.exports = {
 
   "plugins": [
     "react",
-    "import"
+    "import",
+    "react-hooks"
   ],
 
   "globals": {
