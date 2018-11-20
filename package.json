@@ -17,10 +17,13 @@
     ],
     "client/**/*.less": [
       "stylelint --fix --syntax less"
+    ],
+    "tests/*": [
+      "jest"
     ]
   },
   "scripts": {
-    "watch": "webpack --env=development --config --watch ./webpack/webpack.config.babel.js",
+    "test": "jest",
     "start": "webpack-dev-server --config ./webpack/webpack.config.dev.babel.js",
     "dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.dll.babel.js &&cross-env NODE_ENV=development webpack --config ./webpack/webpack.config.dll.babel.js",
     "build": "webpack --env=local --progress --config  ./webpack/webpack.config.babel.js",
@@ -28,6 +31,29 @@
     "build:stage": "webpack --env=stage --progress --config  ./webpack/webpack.config.babel.js",
     "build:test": "webpack --env=test --progress --config  ./webpack/webpack.config.babel.js",
     "build:dev": "webpack --env=dev --progress --config  ./webpack/webpack.config.babel.js"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules"
+    ],
+    "globals": {
+      "BABEL_ENV": "test"
+    }
   },
   "dependencies": {
     "antd": "3.6.5",
@@ -77,6 +103,7 @@
     "webpack-manifest-plugin": "~2.0.3"
   },
   "devDependencies": {
+    "babel-jest": "~23.6.0",
     "eslint": "~4.19.1",
     "eslint-config-airbnb": "~17.0.0",
     "eslint-loader": "~2.0.0",
@@ -85,6 +112,7 @@
     "eslint-plugin-react": "~7.10.0",
     "eslint-plugin-react-hooks": "0.0.0",
     "husky": "~1.0.0",
+    "jest": "~23.6.0",
     "lint-staged": "~7.3.0",
     "react-redux": "~5.0.7",
     "redux-devtools": "~3.4.1",

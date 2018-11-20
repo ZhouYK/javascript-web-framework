@@ -27,8 +27,31 @@
     }], // polyfill
     [
       "import", {
-      "libraryName": "antd", "style": true
-    }
+        "libraryName": "antd", "style": true
+      }
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["env"],
+        "react"
+      ],
+      "plugins": [
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        ["transform-runtime", {
+          "helpers": true,
+          "polyfill": true,
+          "regenerator": true,
+          "moduleName": "babel-runtime"
+        }], // polyfill
+        [
+          "import", {
+            "libraryName": "antd", "style": true
+          }
+        ]
+      ]
+    }
+  }
 }
