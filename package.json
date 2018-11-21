@@ -26,11 +26,11 @@
     "test": "jest",
     "start": "webpack-dev-server --config ./webpack/webpack.config.dev.babel.js",
     "dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.dll.babel.js &&cross-env NODE_ENV=development webpack --config ./webpack/webpack.config.dll.babel.js",
-    "build": "webpack --env=local --progress --config  ./webpack/webpack.config.babel.js",
-    "build:prod": "webpack --env=prod --progress --config  ./webpack/webpack.config.babel.js",
-    "build:stage": "webpack --env=stage --progress --config  ./webpack/webpack.config.babel.js",
-    "build:test": "webpack --env=test --progress --config  ./webpack/webpack.config.babel.js",
-    "build:dev": "webpack --env=dev --progress --config  ./webpack/webpack.config.babel.js"
+    "build": "webpack --env=local --config  ./webpack/webpack.config.babel.js",
+    "build:prod": "webpack --env=prod --config  ./webpack/webpack.config.babel.js",
+    "build:stage": "webpack --env=stage --config  ./webpack/webpack.config.babel.js",
+    "build:test": "webpack --env=test --config  ./webpack/webpack.config.babel.js",
+    "build:dev": "webpack --env=dev --config  ./webpack/webpack.config.babel.js"
   },
   "jest": {
     "verbose": true,
@@ -76,7 +76,6 @@
     "css-loader": "~0.28.11",
     "es6-promise": "~4.2.5",
     "glue-redux": "~3.3.0",
-    "happypack": "~5.0.0",
     "history": "~4.7.2",
     "html-webpack-plugin": "~3.2.0",
     "less": "~3.0.4",
@@ -87,6 +86,7 @@
     "optimize-css-assets-webpack-plugin": "~3.2.0",
     "postcss-flexbugs-fixes": "~3.3.1",
     "postcss-loader": "~2.1.5",
+    "progress-bar-webpack-plugin": "~1.11.0",
     "prop-types": "~15.6.2",
     "react": "~16.6.3",
     "react-dom": "~16.6.3",

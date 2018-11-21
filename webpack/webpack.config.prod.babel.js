@@ -7,7 +7,6 @@ import CleanWebpackPlugin from 'clean-webpack-plugin';
 import UglifyjsWebpackPlugin from 'uglifyjs-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
-import HappyPack from 'happypack';
 
 import commonConfig, { contentPath } from './common.config';
 
@@ -26,8 +25,15 @@ const getConfig = (publicPath, env) => (smp.wrap({
     rules: [{
       test: /\.less$/,
       use: [{
-        loader: MiniCssExtractPlugin.loader,
-      }, 'happypack/loader?id=styles'],
+        loader: 'css-loader',
+      }, {
+        loader: 'postcss-loader',
+      }, {
+        loader: 'less-loader',
+        options: {
+          javascriptEnabled: true,
+        },
+      }],
     }, {
       test: /\.css$/,
       use: [{
@@ -91,20 +97,6 @@ const getConfig = (publicPath, env) => (smp.wrap({
   },
   resolve: commonConfig.resolve,
   plugins: [
-    new HappyPack({
-      id: 'styles',
-      threads: 2,
-      loaders: [{
-        loader: 'css-loader',
-      }, {
-        loader: 'postcss-loader',
-      }, {
-        loader: 'less-loader',
-        options: {
-          javascriptEnabled: true,
-        },
-      }],
-    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       'process.env.JENKINS_ENV': JSON.stringify(env),

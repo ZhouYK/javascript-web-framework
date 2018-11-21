@@ -70,8 +70,6 @@ const config = {
     compress: true,
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       'process.env.JENKINS_ENV': JSON.stringify('test'),
