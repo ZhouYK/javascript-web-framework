@@ -13,10 +13,12 @@
   },
   "lint-staged": {
     "client/**/*.{js,jsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "git add"
     ],
     "client/**/*.less": [
-      "stylelint --fix --syntax less"
+      "stylelint --fix --syntax less",
+      "git add"
     ],
     "tests/*": [
       "jest"
@@ -106,6 +108,7 @@
     "babel-jest": "~23.6.0",
     "eslint": "~4.19.1",
     "eslint-config-airbnb": "~17.0.0",
+    "eslint-config-prettier": "~3.3.0",
     "eslint-loader": "~2.0.0",
     "eslint-plugin-import": "~2.13.0",
     "eslint-plugin-jsx-a11y": "~6.0.3",

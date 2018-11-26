@@ -1,4 +1,5 @@
 module.exports = {
+  "extends": ["airbnb", "prettier"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 8,
@@ -55,6 +56,5 @@ module.exports = {
     }],
     "react/destructuring-assignment": "warn",
     "global-require": 0,
-  },
-  "extends": "airbnb",
+  }
 }
