@@ -3,17 +3,18 @@ const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const vendorPath = path.resolve(__dirname, `../dist/dll/${process.env.NODE_ENV}`);
-const library = '[name]_lib';
+const library = '[name]Lib';
 
 export default {
   mode: process.env.NODE_ENV,
   entry: {
-    vendors: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'redux',
-    ],
+    // vendors: [
+    //  'react',
+    //  'react-dom',
+    //  'react-router-dom',
+    //  'redux',
+    // ],
+    vendors: './baseLib/index.js'
   },
   resolve: {
     mainFiles: ['index.web', 'index'],
@@ -32,10 +33,10 @@ export default {
     new CleanWebpackPlugin([`dist/dll/${process.env.NODE_ENV}`], {
       root: path.resolve(__dirname, '../'),
     }),
-    new webpack.DllPlugin({
-      path: path.join(vendorPath, '[name].manifest.json'),
-      name: library,
-    }),
+    // new webpack.DllPlugin({
+    //  path: path.join(vendorPath, '[name].manifest.json'),
+    //  name: library,
+    // }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),

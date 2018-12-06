@@ -1,5 +1,4 @@
 import webpack from 'webpack';
-import path from 'path';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import commonConfig, { contentPath } from './common.config';
@@ -54,6 +53,7 @@ const config = {
     ],
   },
   resolve: commonConfig.resolve,
+  externals: commonConfig.externals,
   watchOptions: {
     aggregateTimeout: 400,
     poll: 1000,
@@ -73,10 +73,6 @@ const config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       'process.env.JENKINS_ENV': JSON.stringify('test'),
-    }),
-    new webpack.DllReferencePlugin({
-      context: path.join(__dirname, '..'),
-      manifest: require(path.join(__dirname, `../dist/dll/${nodeEnv}/vendors.manifest.json`)),
     }),
     new ManifestPlugin({
       fileName: 'mapping.json',
