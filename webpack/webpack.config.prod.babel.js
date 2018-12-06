@@ -130,6 +130,6 @@ const getConfig = (publicPath, env) => (smp.wrap({
     }),
     ...commonConfig.plugins,
   ],
-  stats: 'minimal',
+  // stats: 'minimal',
 }));
 export default getConfig;
