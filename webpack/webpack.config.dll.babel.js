@@ -8,12 +8,6 @@ const library = '[name]Lib';
 export default {
   mode: process.env.NODE_ENV,
   entry: {
-    // vendors: [
-    //  'react',
-    //  'react-dom',
-    //  'react-router-dom',
-    //  'redux',
-    // ],
     vendors: './baseLib/index.js'
   },
   resolve: {
@@ -33,10 +27,6 @@ export default {
     new CleanWebpackPlugin([`dist/dll/${process.env.NODE_ENV}`], {
       root: path.resolve(__dirname, '../'),
     }),
-    // new webpack.DllPlugin({
-    //  path: path.join(vendorPath, '[name].manifest.json'),
-    //  name: library,
-    // }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),

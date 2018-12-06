@@ -41,7 +41,8 @@ const config = {
   output: {
     filename: 'js/[name].[hash:8].js',
     chunkFilename: 'js/[name].[chunkhash:8].js',
-  },
+    // 这个会影响externals的配置
+    // libraryTarget: 'umd',},
   module: {
     rules,
   },
