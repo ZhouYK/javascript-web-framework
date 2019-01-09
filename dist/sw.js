@@ -1,4 +1,4 @@
-var CACHE_NAME = 'javascript-web-framework-cache-v1';
+var CACHE_NAME = 'javascript-web-framework-cache';
 var urlsToCache = [
   '/dll/production/vendors.dll.js',
   '/favicon.ico',
@@ -27,8 +27,7 @@ self.addEventListener('fetch', function (event) {
         if (response) {
           return response;
         }
-        const requestToClone = event.request.clone();
-        return fetch(requestToClone).catch(function (err) {
+        return fetch(event.request).catch(function (err) {
           return caches.match('/');
         });
       })
