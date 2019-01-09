@@ -9,6 +9,17 @@
 </head>
 <body>
 <div id="bd"></div>
+<script>
+  if ('serviceWorker' in window.navigator) {
+    window.addEventListener('load', function () {
+      window.navigator.serviceWorker.register('/sw.js').then(function (registration) {
+        console.log('SW registered：', registration.scope);
+      }, function (error) {
+        console.log('SW failed：', error);
+      })
+    })
+  }
+</script>
 <script src="<%= vendor %>"></script>
 </body>
 </html>

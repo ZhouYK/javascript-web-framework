@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Router } from 'react-router-dom';
 import React from 'react';
-import history from '../../history';
+import history from './history';
 
 let RootComponent;
 if (process.env.NODE_ENV === 'development') {

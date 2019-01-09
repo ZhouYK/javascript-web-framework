@@ -85,6 +85,7 @@ const config = {
       template: './html/index.html',
       filename: 'index.html',
       templateParameters: {
+        sw: `${publicPath}sw.js`,
         vendor: `${publicPath}dll/${nodeEnv}/vendors.dll.js`,
         title: packageObj.name,
       },

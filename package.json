@@ -27,7 +27,7 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server --hot --config ./webpack/webpack.config.dev.babel.js",
-    "dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.dll.babel.js &&cross-env NODE_ENV=development webpack --config ./webpack/webpack.config.dll.babel.js",
+    "dll": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.dll.babel.js && cross-env NODE_ENV=development webpack --config ./webpack/webpack.config.dll.babel.js",
     "build": "webpack --env=local --config  ./webpack/webpack.config.babel.js",
     "build:prod": "webpack --env=prod --config  ./webpack/webpack.config.babel.js",
     "build:stage": "webpack --env=stage --config  ./webpack/webpack.config.babel.js",
