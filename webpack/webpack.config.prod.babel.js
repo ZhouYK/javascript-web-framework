@@ -9,6 +9,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 
 import commonConfig, { contentPath } from './common.config';
+import swVersion from '../dist/sw-version'
 
 const smp = new SpeedMeasurePlugin();
 
@@ -122,6 +123,7 @@ const getConfig = (publicPath, env) => (smp.wrap({
       template: './html/index.html',
       filename: 'index.html',
       templateParameters: {
+        version: `/forsw.gif?${swVersion}`,
         vendor: `${publicPath}dll/${nodeEnv}/vendors.dll.js`,
         title: '管理系统',
       },

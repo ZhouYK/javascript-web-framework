@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <img style="display: none" src="<%= version %>" />
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
@@ -10,10 +11,21 @@
 <body>
 <div id="bd"></div>
 <script>
+  // 在非https的域名为false
+  // serviceWorker的安全策略所致
   if ('serviceWorker' in window.navigator) {
     window.addEventListener('load', function () {
       window.navigator.serviceWorker.register('/sw.js').then(function (registration) {
         console.log('SW registered：', registration.scope);
+        //registration.addEventListener('updatefound', function () {
+        //  const newWorker = registration.installing;
+        //  newWorker.addEventListener('statechange', function () {
+        //    console.log('stagechange');
+        //  });
+        //});
+        //window.navigator.serviceWorker.addEventListener('controllerchange', function () {
+        //  console.log('controllerchange');
+        //})
       }, function (error) {
         console.log('SW failed：', error);
       })

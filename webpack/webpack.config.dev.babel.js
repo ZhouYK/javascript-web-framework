@@ -3,6 +3,7 @@ import ManifestPlugin from 'webpack-manifest-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import commonConfig, { contentPath } from './common.config';
 import packageObj from '../package.json';
+import swVersion from '../dist/sw-version';
 
 const nodeEnv = 'development';
 const publicPath = '/'; // 可自定义
@@ -85,7 +86,7 @@ const config = {
       template: './html/index.html',
       filename: 'index.html',
       templateParameters: {
-        sw: `${publicPath}sw.js`,
+        version: `/forsw.gif?${swVersion}`,
         vendor: `${publicPath}dll/${nodeEnv}/vendors.dll.js`,
         title: packageObj.name,
       },
