@@ -7,3 +7,4 @@ dist/*
 !dist/dll
 !dist/sw.js
 !dist/sw-version.js
+!dist/forsw.gif
