@@ -1,7 +1,7 @@
 import React, { Fragment, Suspense, lazy } from 'react';
 import { Route } from 'react-router-dom';
 import Loader from '../../components/Loader/index';
-import '../../../node_modules/normalize.css/normalize.css';
+import 'normalize.css';
 
 const Demo = lazy(() => import('../../pages/Demo'));
 

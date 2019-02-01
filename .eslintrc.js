@@ -1,3 +1,3 @@
 module.exports = {
-  "extends": ["@zhouyk/eslint-config"],
+  "extends": ["@zhouyk/eslint-config"]
 }

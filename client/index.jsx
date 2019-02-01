@@ -1,5 +1,5 @@
-import React from 'react';
 import { render } from 'react-dom';
+import React from 'react';
 import Root from './toc/Root';
 import App from './toc/App';
 
