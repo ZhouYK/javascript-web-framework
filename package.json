@@ -27,7 +27,6 @@
   "scripts": {
     "test": "jest",
     "start": "seed start",
-    "dll": "seed dll",
     "wba": "seed wba --env=local",
     "build": "seed build --env=local",
     "build:prod": "seed build --env=prod",
@@ -54,7 +53,7 @@
   },
   "dependencies": {
     "@zhouyk/baselib": "~1.0.1-alpha.3",
-    "@zhouyk/seed": "~1.0.2-alpha.18",
+    "@zhouyk/webpack-config": "~1.0.4-alpha.22",
     "axios": "~0.18.0",
     "es6-promise": "~4.2.5",
     "history": "~4.7.2",
