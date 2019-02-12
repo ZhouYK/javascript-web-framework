@@ -1,4 +1,3 @@
-// 与sw-version.js中swVersion保持一致
 /**
  * 生命周期
  * 1，先install
@@ -6,11 +5,11 @@
  * 3，然后fetch serviceWorker域下所有的请求都会走fetch(包括页面本身)
  * @type {string}
  */
+  // 与sw-version.js中swVersion保持一致
 var curVersion = '0.0';
 var CACHE_NAME = `javascript-web-framework-cache-${curVersion}`;
 var pageVersion;
-var urlsToCache = [
-];
+var urlsToCache = [];
 
 function itsVersion(url) {
   const arr = url.match(/\/forsw\.gif\?(.*)/);

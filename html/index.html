@@ -2,12 +2,13 @@
 <html lang="zh-CN">
 <head>
     <!-- 必须放到第一个加载，第一个触发fetch事件 -->
-    <img style="display: none" src="<%= version %>" />
+    <img style="display: none" src="<%= htmlWebpackPlugin.options.version %>" />
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge,Chrome=1" />
     <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
     <meta name="format-detection" content="telephone=no"/>
-    <title><%= title %></title>
+    <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>">
+    <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
 <div id="bd"></div>
@@ -17,6 +18,8 @@
   if ('serviceWorker' in window.navigator) {
     window.addEventListener('load', function () {
       window.navigator.serviceWorker.register('/sw.js').then(function (registration) {
+        // service worker遵循同源策略，且更加严格；其作用域为加载server worker文件的全路径的path部分；
+        // 调用register时，传入路径可以使绝对或者相对路径
         console.log('SW registered：', registration.scope);
         //registration.addEventListener('updatefound', function () {
         //  const newWorker = registration.installing;
