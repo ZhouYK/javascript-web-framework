@@ -52,8 +52,8 @@
     ]
   },
   "dependencies": {
-    "@zhouyk/baselib": "~0.0.1",
-    "@zhouyk/webpack-config": "~0.0.2",
+    "@zhouyk/baselib": "~0.1.0",
+    "@zhouyk/webpack-config": "~0.1.0",
     "axios": "~0.18.0",
     "es6-promise": "~4.2.5",
     "history": "~4.7.2",
