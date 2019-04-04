@@ -1,4 +1,4 @@
-import { gluer } from 'glue-redux';
+import { gluer } from 'react-glue-redux-hook';
 
 const person = gluer((data, state) => ({ ...state, ...data }), {
   title: '',

@@ -1,7 +1,7 @@
 {
   "presets": [
-    "react",
-    ["env", {
+    "@babel/preset-react",
+    ["@babel/preset-env", {
       "modules": "commonjs",
       "targets": {
         "chrome": 48,
@@ -14,31 +14,43 @@
     }]
   ],
   "plugins": [
-    "transform-class-properties",
-    "syntax-dynamic-import",
-    "transform-object-rest-spread",
-    "syntax-async-functions",
-    ["transform-runtime", {
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-async-generator-functions",
+    ["@babel/plugin-transform-runtime", {
+      "absoluteRuntime": false,
+      "corejs": 2,
       "helpers": true,
-      "polyfill": true,
       "regenerator": true,
-      "moduleName": "babel-runtime"
+      "useESModules": false
     }]
   ],
   "env": {
     "test": {
       "presets": [
-        ["env"],
-        "react"
+        "@babel/preset-react",
+        ["@babel/preset-env", {
+          "modules": "commonjs",
+          "targets": {
+            "chrome": 48,
+            "ie": 9,
+            "browsers": [
+              "> 1%",
+              "last 5 versions"
+            ]
+          }
+        }]
       ],
       "plugins": [
-        "transform-object-rest-spread",
-        "transform-class-properties",
-        ["transform-runtime", {
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-object-rest-spread",
+        ["@babel/plugin-transform-runtime", {
+          "absoluteRuntime": false,
+          "corejs": 2,
           "helpers": true,
-          "polyfill": true,
           "regenerator": true,
-          "moduleName": "babel-runtime"
+          "useESModules": false
         }]
       ]
     }

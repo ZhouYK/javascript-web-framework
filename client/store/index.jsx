@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { destruct } from 'react-glue-redux';
+import { destruct } from 'react-glue-redux-hook';
 import storeFactory from '../tools/storeFactory/forBrowser';
 import models from '../pages/models';
 
