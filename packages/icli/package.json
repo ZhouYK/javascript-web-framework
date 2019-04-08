@@ -1,23 +1,22 @@
 {
   "name": "@zhouyk/icli",
-  "version": "0.0.6",
+  "version": "0.0.7-alpha.0",
   "description": "tools for myself",
   "bin": {
     "icli": "./index.js"
   },
   "dependencies": {
+    "@zhouyk/javascript-web-framework": "^0.0.2-alpha.0",
     "chalk": "~2.4.2",
     "commander": "~2.19.0",
     "inquirer": "~6.2.1",
-    "ncp": "~2.0.0",
-    "@zhouyk/javascript-web-framework": "~0.0.1"
+    "ncp": "~2.0.0"
   },
   "files": [
     "index.js",
     "package.json"
   ],
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
