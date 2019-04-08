@@ -1,0 +1,82 @@
+{
+  "name": "@zhouyk/javascript-web-framework",
+  "version": "0.0.1",
+  "description": "前端web脚手架",
+  "sideEffects": [
+    "*.css",
+    "*.less"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "client/**/*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "client/**/*.less": [
+      "stylelint --fix --syntax less",
+      "git add"
+    ],
+    "tests/*": [
+      "jest"
+    ]
+  },
+  "scripts": {
+    "test": "jest",
+    "start": "seed start",
+    "wba": "seed wba --env=local",
+    "build": "seed build --env=local",
+    "build:prod": "seed build --env=prod",
+    "build:stage": "seed build --env=stage",
+    "build:test": "seed build --env=test",
+    "build:dev": "seed build --env=dev"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ]
+  },
+  "dependencies": {
+    "axios": "~0.18.0",
+    "es6-promise": "~4.2.5",
+    "glue-redux": "~3.5.5",
+    "history": "~4.7.2",
+    "normalize.css": "~8.0.0",
+    "prop-types": "~15.6.2",
+    "react": "~16.8.6",
+    "react-dom": "~16.8.6",
+    "react-glue-redux-hook": "~0.1.3",
+    "react-router": "~4.3.1",
+    "react-router-dom": "~4.3.1",
+    "redux": "~4.0.1"
+  },
+  "devDependencies": {
+    "@zhouyk/webpack-config": "~0.2.1-alpha.3",
+    "@zhouyk/eslint-config": "~0.0.1",
+    "@zhouyk/stylelint-config": "~0.0.1",
+    "babel-jest": "~23.6.0",
+    "husky": "~1.0.0",
+    "jest": "~23.6.0",
+    "lint-staged": "~7.3.0",
+    "react-redux": "~5.0.7",
+    "redux-devtools": "~3.4.1",
+    "redux-devtools-dock-monitor": "~1.1.3",
+    "redux-devtools-log-monitor": "~1.4.0"
+  },
+  "license": "MIT"
+}

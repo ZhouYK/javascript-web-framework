@@ -1,0 +1,9 @@
+.DS_Store
+.idea
+packages
+dist
+!dist/dll
+!dist/sw
+!dist/sw.js
+package-lock.json
+.npmignore

@@ -1,4 +1,7 @@
 module.exports = {
+  entry: {
+    index: ['./client/index.jsx']
+  },
   publicPaths: {
     dev: '/',
     test: '/',

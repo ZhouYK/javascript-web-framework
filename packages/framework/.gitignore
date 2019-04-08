@@ -1,0 +1,9 @@
+.idea
+.DS_Store
+.git
+node_modules
+dist
+!dist/dll
+!dist/sw
+!dist/sw.js
+package-lock.json
