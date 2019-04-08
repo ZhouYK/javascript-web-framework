@@ -15,3 +15,4 @@ render(
   </Root>,
   document.getElementById('bd'),
 );
+
